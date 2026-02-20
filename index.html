@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axon Technologies · CyraxAI — Обновления нейросети</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Roboto', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            background-color: #0a0c12;
+            color: #e0e0e0;
+            line-height: 1.5;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        @keyframes starPulse {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.6);
+            animation: starPulse 3s infinite ease-in-out;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .company-name {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #b0b0ff, #70f0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            color: #aaa;
+            margin-top: 0.25rem;
+        }
+
+        .tagline span {
+            color: #70f0ff;
+            font-weight: 500;
+        }
+
+        .update-card {
+            background: rgba(12, 20, 30, 0.75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            border-radius: 2rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 1000px;
+            box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 240, 255, 0.1) inset;
+            transition: transform 0.2s;
+        }
+
+        .update-card:hover {
+            transform: scale(1.01);
+            border-color: rgba(0, 240, 255, 0.5);
+        }
+
+        .update-image {
+            flex: 1 1 300px;
+            min-height: 260px;
+            background: #1a2635;
+            background-image: radial-gradient(circle at 30% 40%, #2a3a50 0%, #0f172a 90%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .update-image::before {
+            content: "";
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(0, 255, 255, 0.03) 30px, rgba(0, 200, 255, 0.05) 60px);
+            animation: shift 20s linear infinite;
+        }
+
+        @keyframes shift {
+            0% { transform: translate(-10%, -10%) rotate(0deg); }
+            100% { transform: translate(10%, 10%) rotate(5deg); }
+        }
+
+        .update-image svg {
+            width: 180px;
+            height: 180px;
+            opacity: 0.9;
+            filter: drop-shadow(0 0 20px #00ccff);
+        }
+
+        .update-info {
+            flex: 1 1 350px;
+            padding: 2rem 2.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(0, 240, 255, 0.15);
+            border: 1px solid rgba(0, 240, 255, 0.4);
+            color: #70f0ff;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            width: fit-content;
+            letter-spacing: 1px;
+        }
+
+        .update-title {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: white;
+        }
+
+        .update-description {
+            color: #b0c4d9;
+            font-size: 1rem;
+            margin: 0.5rem 0 0.25rem;
+            max-width: 90%;
+        }
+
+        .detail-button {
+            background: transparent;
+            border: 2px solid #00f0ff;
+            color: #00f0ff;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            width: fit-content;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.75rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 1.5px;
+            backdrop-filter: blur(5px);
+        }
+
+        .detail-button i {
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .detail-button:hover {
+            background: #00f0ff;
+            color: #0a0c12;
+            box-shadow: 0 0 30px #00f0ff;
+        }
+
+        .detail-button:hover i {
+            transform: translateX(5px);
+        }
+
+        .social-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .social-btn {
+            background: rgba(20, 30, 45, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.9rem 2rem;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #ddd;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.25s;
+            border-left: 3px solid transparent;
+        }
+
+        .social-btn i {
+            font-size: 1.5rem;
+            width: 1.8rem;
+            text-align: center;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-4px);
+            border-color: #00f0ff;
+            box-shadow: 0 10px 20px -5px rgba(0, 240, 255, 0.3);
+            color: white;
+        }
+
+        .social-btn .fa-telegram { color: #27a7e7; }
+        .social-btn .fa-twitter { color: #1d9bf0; }
+        .social-btn .fa-paper-plane { color: #27a7e7; }
+
+        .social-btn:hover .fa-telegram,
+        .social-btn:hover .fa-twitter,
+        .social-btn:hover .fa-paper-plane {
+            color: inherit;
+        }
+
+        .button-label {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.3;
+        }
+
+        .button-label .small {
+            font-size: 0.75rem;
+            opacity: 0.6;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-note {
+            font-size: 0.9rem;
+            color: #4f5b68;
+            margin-top: 2.5rem;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            padding-top: 2rem;
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (max-width: 700px) {
+            .update-card {
+                flex-direction: column;
+                border-radius: 1.5rem;
+            }
+            .update-image {
+                min-height: 220px;
+            }
+            .company-name {
+                font-size: 2.2rem;
+            }
+            .social-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="starfield"></div>
+
+    <div class="content">
+        <div class="header">
+            <div class="company-name">AXON TECHNOLOGIES</div>
+            <div class="tagline"><span>CyraxAI</span> · синаптические обновления 2026</div>
+        </div>
+
+        <div class="update-card">
+            <div class="update-image">
+                <img src="photo_5242211213922472733_y.jpg" alt="CyraxAI обновление" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="update-info">
+                <span class="version-badge">v1.6.1</span>
+                <div class="update-title">Цифровой друг</div>
+                <div class="update-description">
+                    CyraxAI улучшил анализ вопроса и начал выдавать более подробные и дружелюбные ответы.
+                </div>
+                <a href="https://telegra.ph/Novaya-ehra-obshcheniya-CyraxAI-obnovlyaetsya-do-versii-161--Eshche-bystree-teplee-i-blizhe-v-vashem-Telegram-02-20" class="detail-button" target="_blank">
+                    ПОДРОБНЕЕ <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="social-section">
+            <a href="https://t.me/CyraxAIBot" class="social-btn" target="_blank">
+                <i class="fab fa-telegram"></i>
+                <span class="button-label">
+                    CyraxAI в Telegram
+                    <span class="small">бот нейросети</span>
+                </span>
+            </a>
+
+            <a href="#" class="social-btn" target="_blank">
+                <i class="fab fa-twitter"></i>
+                <span class="button-label">
+                    Axon Tech X
+                    <span class="small">Twitter / Новости</span>
+                </span>
+            </a>
+
+            <a href="https://t.me/axontechnologies" class="social-btn" target="_blank">
+                <i class="fab fa-telegram"></i>
+                <span class="button-label">
+                    TG канал Axon
+                    <span class="small">обновления и статьи</span>
+                </span>
+            </a>
+        </div>
+
+        <div class="footer-note">
+            © 2026 Axon Technologies · нейросеть CyraxAI
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const starfield = document.getElementById('starfield');
+            const starCount = 150;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+
+                star.style.animationDelay = Math.random() * 5 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                star.style.opacity = Math.random() * 0.5 + 0.3;
+
+                starfield.appendChild(star);
+            }
+        })();
+    </script>
+</body>
+</html>
